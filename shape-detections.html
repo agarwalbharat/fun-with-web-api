@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+
+    <input type="file" id="file" />
+    <br/>
+    <button onclick="detectBarcode()">Detect Barcode/QrCode</button>
+    <button onclick="detectFace()">Detect Face</button>
+    <button onclick="detectText()">Detect Text</button>
+
+    <div id="log"></div>
+
+    <script>
+        const log = document.getElementById("log");
+
+        const file_input = document.getElementById("file");
+
+
+        const detectFace = async () => {
+            if ('FaceDetector' in window) {
+                const file = file_input.files[0];
+                const img = await createImageBitmap(file)
+                const faces = await new FaceDetector().detect(img);
+                console.log(faces);
+                log.innerText = JSON.stringify(faces);
+            } else {
+                console.log("not supported");
+            }
+
+        }
+
+        const detectBarcode = async () => {
+            if ('BarcodeDetector' in window) {
+                // const a = await BarcodeDetector.getSupportedFormats();
+                // console.log(a);  
+                const file = file_input.files[0];
+                const img = await createImageBitmap(file);
+                const codes = await new BarcodeDetector().detect(img);
+                console.log(codes);
+                const textAvailable = codes[0].rawValue;
+                log.innerText = `${JSON.stringify(codes)} \n\n\n ${textAvailable}`;
+            } else {
+                console.log("Not supported");
+            }
+
+        }
+
+        const detectText = async () => {
+            if ("TextDetector" in window) {
+                const file = file_input.files[0];
+                const img = await createImageBitmap(file);
+                const texts = await new TextDetector().detect(img);
+                console.log(texts);
+                const textAvailable = texts.map(text=>text.rawValue).join("\n");
+                console.log(textAvailable);
+                log.innerText = `${JSON.stringify(texts)}\n\n\n ${textAvailable}`
+            } else {
+                console.log("Not supported");
+            }
+        }
+    </script>
+
+</body>
+
+</html>

@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset='utf-8'>
+    <meta http-equiv='X-UA-Compatible' content='IE=edge'>
+    <title>Page Title</title>
+    <meta name='viewport' content='width=device-width, initial-scale=1'>
+</head>
+
+<body>
+    <button onclick="share()">Share URL</button>
+
+    <script>
+        const share = () => {
+            if (navigator.share) {
+                const shareOpts = {
+                    title: 'CDS Extended India',
+                    text: 'Join CDS extended India on 9th Jan 2021',
+                    url: 'https://cds.webdevsin.com/',
+                }
+                navigator.share(shareOpts)
+                    .then(() => {
+                        alert("Shared");
+                    })
+                    .catch((e) => {
+                        console.log(e);
+                    });
+            }
+        }
+    </script>
+
+</body>
+
+</html>

@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset='utf-8'>
+    <meta http-equiv='X-UA-Compatible' content='IE=edge'>
+    <title>Page Title</title>
+    <meta name='viewport' content='width=device-width, initial-scale=1'>
+</head>
+
+<body>
+    <input type="file" id="file" multiple/>
+    <button onclick="shareFiles()">Share this file</button>
+
+    <script>
+        const shareFiles = () => {
+            const filesArray = document.getElementById('file').files;
+            console.log(filesArray);
+            if (navigator.canShare && navigator.canShare({ files: filesArray })) {
+                navigator.share({
+                        files: filesArray,
+                        title: 'Some Files',
+                        text: 'Some Secret files 🤫.',
+                    })
+                    .then(() => {
+                        alert("Files shared");
+                    })
+                    .catch((error) => {
+                        console.log(error);
+                    });
+            } else {
+                alert("Not Supported")
+            }
+        }
+    </script>
+
+</body>
+
+</html>

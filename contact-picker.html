@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Contact Picker</title>
+</head>
+
+<body>
+    <button onclick="getContacts()">Get Contacts</button>
+    <div id="message"></div>
+
+    <script>
+        const log = document.getElementById("message");
+        const getContacts = async () => {
+            if ('contacts' in navigator && 'ContactsManager' in window) {
+                const props = ['name', 'email', 'tel', 'icon'];
+                const opts = { multiple: true };
+                try {
+                    const contacts = await navigator.contacts.select(props, opts);
+                    console.log(contacts);
+                    log.innerHTML = JSON.stringify({ contacts });
+                } catch (e) {
+                    log.innerHTML = e;
+                    console.log(e);
+                }
+            } else {
+                log.innerHTML = "Not Supported";
+                console.log("Not Supported");
+            }
+        }
+    </script>
+</body>
+
+</html>
